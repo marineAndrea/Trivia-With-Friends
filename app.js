@@ -3,6 +3,7 @@ var path = require('path');
 var mongoose = require('mongoose');
 var app = express();
 
+
 require('./server/config/middleware.js')(app, express);
 
 mongoURI = process.env.MONGOLAB_URI || 'mongodb://localhost/TriviaWithFriends';
@@ -16,6 +17,8 @@ db.once('open', function (callback) {
   console.log('db success');
 });
 
+// server-side socket.io
+require('./server/config/serversocketio.js')(app);
 
 // only run server if app.js was run directly (rather than being
 // imported as a module)
