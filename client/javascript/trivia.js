@@ -33,28 +33,11 @@
   app.controller('TriviaController', ['$scope', '$http', 'Questions', '$interval', '$location', 'ProfileFactory', function($scope, $http, Questions, $interval, $location, ProfileFactory) {
 
     //sample trivia api response for chai test
-    $scope.questions = [
-      {
-        "id": 46207,
-        "answer": "England",
-        "question": "This country's 1689 Bill of Rights stated that no Roman Catholic would ever rule it",
-        "value": 100,
-        "airdate": "2000-11-23T12:00:00.000Z",
-        "created_at": "2014-02-11T23:13:46.149Z",
-        "updated_at": "2014-02-11T23:13:46.149Z",
-        "category_id": 5724,
-        "game_id": null,
-        "invalid_count": null,
-        "category": {
-          "id": 5724,
-          "title": "catholicism",
-          "created_at": "2014-02-11T23:13:46.044Z",
-          "updated_at": "2014-02-11T23:13:46.044Z",
-          "clues_count": 10
-        }
-      }
-    ];
-
+    $scope.player = {};
+    $scope.opponents = [];
+    $scope.q = {};
+    $scope.prevQ = {};
+    $scope.gameOn = false;
     $scope.updateUser = Questions.updateUser;
     $scope.username = ProfileFactory.getUsername();
 
@@ -85,14 +68,41 @@
       }
     };
 
-    //for getting trivia questions from the jService API
-    $scope.getQuestions = function() {
-      Questions.getQuestions()
-        .success(function(data) {
-          $scope.questions = data;
-        });
+    socket.on('update', function(data){
+      for (var key in data) {
+        
+        if (key === 'question') {
+          setCountdown(); 
+        }
+
+        if(key === 'players'){
+          for(var i = 0; i < data[key]; i++) {
+            var player = data[key][i];
+            var thisUsername = $window.localStorage.getItem('com.TriviaWithFriends.username');
+            if (player.name === thisUsername ) {
+              $scope.player = player;
+            } else {
+              $scope.opponents.push(player);
+            }
+          }
+        } else {
+          $scope[key] = data[key];
+        }
+      }
+    });
+
+    socket.on('startGame', function(){
+      $scope.gameOn = true;  
+      gameDataInit();
+    });
+
+    socket.on('endGame', function(){
+      console.log('game over, man. game over');
+    });
+
+    var joinGame = function() {
+      socket.connect('http://localhost:8000');
     };
-    $scope.getQuestions();
 
     //for handling user answers to trivia
    $scope.checkAnswer = function(keyEvent, question) {
@@ -101,24 +111,28 @@
         var id = question.id;
         var value = question.value;
         var userAns = question.userAnswer;
-        return $http.post('/api/trivia', {
-          id: id,
-          value: value,
-          userAns: userAns
-        }).then(function (res) {
-          var q = res.data;
-          if(q.correct){
-            $scope.correct++;
-            $scope.currentStreak++;
-            $scope.score += value;
-          }else{
-            $scope.currentStreak = 0;
-          }
-          if($scope.currentStreak > $scope.correctStreak){
-            $scope.correctStreak = $scope.currentStreak;
-          }
-          $scope.nextLoc();
-        });
+        
+        socket.emit('answer', {data: userAns});
+
+
+        // return $http.post('/api/trivia', {
+        //   id: id,
+        //   value: value,
+        //   userAns: userAns
+        // }).then(function (res) {
+        //   var q = res.data;
+        //   if(q.correct){
+        //     $scope.correct++;
+        //     $scope.currentStreak++;
+        //     $scope.score += value;
+        //   }else{
+        //     $scope.currentStreak = 0;
+        //   }
+        //   if($scope.currentStreak > $scope.correctStreak){
+        //     $scope.correctStreak = $scope.currentStreak;
+        //   }
+        //   $scope.nextLoc();
+        // });
       }
     };
 
@@ -138,8 +152,9 @@
       $scope.gameTimer = $interval(function() {
         $scope.counter--;
         if($scope.counter === 0) {
-          $scope.nextLoc();
-          $scope.setCountdown();
+          socket.emit('answer', {'answer': ""});
+          // $scope.nextLoc();
+          // $scope.setCountdown();
         }
       }, 1000);
     };

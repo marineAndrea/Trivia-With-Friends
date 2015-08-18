@@ -1,4 +1,4 @@
-<div class="q" ng-repeat="q in questions">
+<div class="q" ng-model='q'>
   <div class="play-trivia-view col-md-6 col-md-offset-3 well"
     ng-show="$index===navLoc">
 
@@ -8,7 +8,11 @@
           <h4>Time left: {{counter}}</h4>
         </div>
         <div class="col-md-6 text-right">
-          <h4>Score: {{score}}</h4>
+          <h4>Opponent Scores:</h4>
+          <h4 ng-repeat="opponent in opponents"> 
+            {{opponent.name}}: {{opponent.score}}
+          </h4>
+          <h4>Your Score: {{player.score}}</h4>
         </div>
       </div>
 
@@ -28,7 +32,7 @@
           </div>
         </div>
       </div>
-
+    
       <div class="row play-trivia-row">
         <div class="col-md-8 col-md-offset-2">
           <input type='text'
@@ -38,6 +42,26 @@
             ng-model="q.userAnswer"
             autofocus>
           </input>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="play-trivia-question-panel panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                Category: {{prevQ.category.title}}
+              </h3>
+            </div>
+            <div class="panel-body">
+              <h4 class="play-trivia-question-txt">
+                {{ prevQ.question }}
+              </h4>
+              <h4>
+                {{ prevQ.answer }}
+              </h4>
+            </div>
+          </div>
         </div>
       </div>
 

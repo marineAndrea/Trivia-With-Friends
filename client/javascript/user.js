@@ -1,9 +1,9 @@
 (function() {
 
-  var app = angular.module('User',[]);
+  var app = angular.module('User',['socketio']);
 
 
-  app.factory('UserFactory', ['$http', '$location', '$window', function($http, $location, $window) {
+  app.factory('UserFactory', ['$http', '$location', '$window', 'socketio', function($http, $location, $window, socketio) {
 
     var obj = {}; // export object so you can later add new objects and methods to our factories
 
@@ -28,11 +28,11 @@
     };
 
     obj.isAuth = function () {
-      // console.log($window.localStorage.getItem('com.TriviaWithFriends'));
       return !!$window.localStorage.getItem('com.TriviaWithFriends');
     };
 
     obj.signout = function () {
+      socketio.disconnect();
       obj.currentUser = null;
       $window.localStorage.removeItem('com.TriviaWithFriends');
       $window.localStorage.removeItem('com.TriviaWithFriends.username');

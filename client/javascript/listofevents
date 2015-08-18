@@ -1,0 +1,27 @@
+client emit:
+connect
+answer
+disconnect
+
+
+client listen:
+startgame
+endgame
+
+socket.on('update', function(data){
+  for (var key in data) {
+    $scope[key] = data[key]
+  }
+})
+
+server-side
+io.emit('update', {
+  question: "Why?", 
+  user: {},
+  opponents: [{},{}]
+})
+
+io.emit('update', {
+  question: "Why?", 
+  players: [{},{}]
+})
