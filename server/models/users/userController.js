@@ -1,5 +1,5 @@
 var User = require('./userModel.js'),
-var Game = require('../game/gameModel.js')
+    Game = require('../game/gameModel.js')
     Q    = require('q'),
     jwt  = require('jwt-simple');
 
@@ -7,13 +7,13 @@ var secret = 'This really shouldn\'t be in the git repo. Replace with a secure s
 
 module.exports = {
 
-  updateUser: function(req, res){
-    var username = req.body.username;
+  updateUser: function(userObject){
+    var username = userObject.username;
     var userLevel;
-    var score = req.body.score;
-    var correct = req.body.correct;
-    var correctStreak = req.body.correctStreak;
-    var answered = req.body.answered;
+    var score = userObject.score;
+    var correct = userObject.correct;
+    var correctStreak = userObject.correctStreak;
+    var answered = userObject.answered;
     var query = {username: username};
     var oldScore;
     var newScore;
@@ -26,10 +26,6 @@ module.exports = {
 
     findUser({username: username})
       .then(function(user){
-
-
-
-    
         oldScore = user.totalXp;
         newScore = oldScore + score;
         oldGames = user.gamesPlayed;
@@ -79,7 +75,7 @@ module.exports = {
         });        
 
         User.findOneAndUpdate(query, { 
-          games.push({
+          games: $push({
             opponents: 
             datePlayed: new Date(),
             xpEarned: score,
@@ -143,7 +139,6 @@ module.exports = {
             username: username,
             password: password
           };
-          console.log('``````````', newUser);
           return create(newUser);
         }
       })

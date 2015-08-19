@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 
+
 var GameSchema = new mongoose.Schema({    
   datePlayed: {
     type: Date,
@@ -7,9 +8,16 @@ var GameSchema = new mongoose.Schema({
   },
   players: [{
     name: String, // username
-    totalXp: Number,
-    xpEarned: Number,
-    questionsAnswered: Number,
-    questionsAnsweredCorrect: Number
-  }]
+    cumulativeScore: Number,
+    gameScore: Number,
+    questionsAnswered: {
+      type: Number,
+      default: 0
+    },
+    questionsAnsweredCorrect: {
+      type: Number,
+      default: 0
+    }]
 });
+
+module.exports = mongoose.model('games', GameSchema);

@@ -1,5 +1,8 @@
 var unirest = require('unirest');
+
 // var io = require('socket.io')(app);
+
+var Game = require('../../models/game/gameController');
 
 var getQuestions = function(callback){
   unirest.get("http://jservice.io/api/random?count=10") // changed to 100
@@ -41,13 +44,6 @@ var makeGameObj = function() {
   return gameObj;
 };
 
-var handleEndGame = function() {
-  gameObj = makeGameObj();
-
-  // TODO: update users
-  // TODO: save game onto database
-
-};
 
 var setCountdown = function() {
   // reset timer
@@ -96,7 +92,7 @@ module.exports = function(app){
       }
       data = {winner: winner, message: winner.username+"wins!"};
       io.emit('endGame', data);
-      handleEndGame();
+      Game.handleEndGame(gameObj);
     } else { // new question
       setCountdown();
       var q = gameObj.currQuest();
@@ -166,6 +162,7 @@ module.exports = function(app){
       }
 
     });
+
 
     // What to do if a player disconnects?
     socket.on('disconnect', function() {

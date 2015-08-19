@@ -45,7 +45,7 @@ var UserSchema = new mongoose.Schema({
  
 
 
-///////// please ignore
+  ///////// please ignore
   mostRecentGame: {
     xpEarned: {
       type: Number,
@@ -59,6 +59,7 @@ var UserSchema = new mongoose.Schema({
       type: Number,
       default: 0
     }
+    //////////////
   }
 });
 
