@@ -1,7 +1,7 @@
 angular.module('socketio', [])
 .factory('socketio', function ($rootScope, $window) {
   
-  var socket = io.connect("http://localhost:8000");
+  var socket = io.connect("http://localhost:3000");
 
   
   return {
