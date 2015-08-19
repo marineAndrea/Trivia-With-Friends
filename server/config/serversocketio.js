@@ -1,68 +1,119 @@
+var getQuestions = require('../../models/trivia/triviaRoutes');
+var unirest = require('unirest');
+
+var getQuestions = function(){
+  unirest.get("http://jservice.io/api/random?count=10") // changed to 100
+    .header("Accept", "application/json")
+    .end(function (result) {
+      var triviaArr = [];
+      // var parsed = JSON.parse(result);
+      var collection = result.body;
+      for(var i = 0; i < collection.length; i++){
+        var trivia = {};
+        trivia.id = collection[i].id;
+        trivia.answer = collection[i].answer;
+        trivia.question = collection[i].question;
+        trivia.category = collection[i].category.title;
+        trivia.value = collection[i].value;
+        triviaArr.push(trivia);
+    }
+    return triviaArr;
+  });
+};
+
 module.exports = function(app){
   var httpServer = require('http').Server(app);
   var io = require('socket.io')(httpServer);
 
+  var questions = getQuestions();
+
+  for (var i = 0; i < questions.length; i++) {
+    questions[i].playersAttempted = [];
+  }
 
   // Things to keep track of
-  var numPlayers = 0;
-  var players = [{username: asdfasdf, score: asdfasdf}, etc.];
-  var questionsAnswered = 0;
-  var maxNumQuestions = 10;
-  var prevQuestion = null;
-  var currentQuestion = null; {question: aldkjfawlef, answer: laskjdflak, playersAttempted: [usernames]}
-
-  var moveOnToNextQuestion = function() {
-    if (questionsAnswered === maxNumQuestions) {
-      data = {winner: winnerName, message: winnerName+"wins!"};
-      io.emit('endGame', data);
-    } else {
-      // Reset currentQuestion
-      // send new question to al players
+  var gameObj = {
+    players: [],
+    questions: questions,
+    maxNumQuestions: 10,
+    questionNumber: -1,
+    currQuest: function(){
+      return this.questions[this.questionNumber];
+    },
+    prevQuest: function(){
+      if (this.questionNumber === 0) {
+        return null;
+      } else {
+        return this.questions[this.questionNumber - 1];
+      }
     }
   };
 
+  var moveOnToNextQuestion = function() {
+    gameObj.questionNumber++;
+    if (gameObj.questionNumber === gameObj.maxNumQuestions) {
+      // score the game
+      data = {winner: winnerName, message: winnerName+"wins!"};
+      io.emit('endGame', data);
+    } else {
+      io.emit('update', {
+        players: gameObj.players,
+        question: gameObj.currQuest().question,
+        prevQuest: gameObj.prevQuest()
+      });
+    }
+  };
 
   var handleClientOnConnection = function(socket) {
-    // Update the number of players
-    numPlayers++;
-    players.push({username: asdfasdf, score: 0});
 
+    socket.on('getUsername', function(data){
+      socket.username = data.username;
+      gameObj.players.push({username: socket.username, score: 0});
+    });
+    
     // Update everyone with the new player
-    io.emit('newPlayer', /*info about the new player */); // subject to change
+    io.emit('update', {players: gameObj.players});
     
     // Start the game if there are 3 players
     if (numPlayers === 3) {
       io.emit('startGame');
-      // TODO: start the game for everyone
-      // moveOnToNextQuestion()
+
+      // moveOnToNextQuestion();
     }
 
     // A player answers
     socket.on('answer', function(input) {
-      /* TODO:
-        - username = input.username, answer = input.answer
-        - if (username is in currentQuestion.playersAttempted) {
-            player already attempte this question, so s/he cannot answer anymore
-            data = {error: "You can only attempt a question once"}
-            socket.emit('update', data);
+      var answer = input.answer;
+      var currQuest = gameObj.currQuest();
+      var correctAnswer = currQuest.answer;
+      var players = gameObj.players;
+
+      if (currQuest.playersAttempted.indexOf(socket.username)) {
+        
+      //     player already attempte this question, so s/he cannot answer anymore
+        data = {error: "You can only attempt a question once"};
+        socket.emit('update', data);
+        return;
+      }
+
+      // correct answer:
+      if (answer === correctAnswer) {
+        for (var i = 0; i < players; i++) {
+          var player = players[i];
+          if (player.username === socket.username){
+            player.score += currQuest.value;
+            currQuest.winner = socket.username;
+            moveOnToNextQuestion();
             return;
-          }
-        - correct answer:
-          - questionsAnswered++;
-          - update scores on the server side, send over new info to everyone
-          - data = {
-              question: someNewQuestion,
-              prevQuestion: {question: lastQuestion, player: correctGuessersUsername}
-            };
-            io.emit('update', data);
-            prevQuestion = currentQuestion
-            move on to next question (this handles the case where all questions have been attempted)
-        - wrong answer:
-          - Add the player to currentQuestion.playersAttempted
-          - if (numPlayers === currentQuestion.playersAttempted.length) {
-              no one got this question right, so move on to the next question
-            }
-      */
+          }          
+        }
+      } else {
+        currQuest.playersAttempted.push(socket.username);
+        if (players.length === currQuest.playersAttempted.length) {
+          currQuest.winner = "nobody :(";
+          moveOnToNextQuestion();
+        }
+      }
 
     });
 

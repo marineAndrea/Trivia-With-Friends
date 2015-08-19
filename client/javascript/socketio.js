@@ -1,6 +1,8 @@
 angular.module('socketio', [])
-.factory('socketio', function ($rootScope) {
+.factory('socketio', function ($rootScope, $window) {
+  
   var socket = io.connect("http://localhost:8000");
+
   
   return {
     on: function (eventName, callback) {
