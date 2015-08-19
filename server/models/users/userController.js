@@ -70,6 +70,18 @@ module.exports = {
           }
         }, function(arg){
           //null
+        });        
+
+        User.findOneAndUpdate(query, { 
+          games.push({
+            opponents: 
+            datePlayed: new Date(),
+            xpEarned: score,
+            questionsAnswered: answered,
+            questionsAnsweredCorrect: correct
+          }
+        }, function(arg){
+          //null
         });
       });
   },

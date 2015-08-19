@@ -3,7 +3,6 @@ var bcrypt = require('bcrypt-nodejs');
 var Q = require('q');
 var SALT_WORK_FACTOR  = 10;
 
-
 var UserSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -42,6 +41,11 @@ var UserSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  games: [{type: String}],
+ 
+
+
+///////// please ignore
   mostRecentGame: {
     xpEarned: {
       type: Number,
