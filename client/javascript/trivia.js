@@ -91,6 +91,12 @@
       }
     });
 
+    socket.on('connect', function(){
+      socket.emit('getUsername', {
+        username: $window.localStorage.removeItem('com.TriviaWithFriends.username')
+      });
+    });
+    
     socket.on('startGame', function(){
       $scope.gameOn = true;  
       gameDataInit();
