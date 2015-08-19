@@ -1,4 +1,5 @@
 var User = require('./userModel.js'),
+var Game = require('../game/gameModel.js')
     Q    = require('q'),
     jwt  = require('jwt-simple');
 
@@ -22,8 +23,13 @@ module.exports = {
     var questionsAnswered;
     var questionsAnsweredCorrect;
     var findUser = Q.nbind(User.findOne, User);
+
     findUser({username: username})
       .then(function(user){
+
+
+
+    
         oldScore = user.totalXp;
         newScore = oldScore + score;
         oldGames = user.gamesPlayed;
