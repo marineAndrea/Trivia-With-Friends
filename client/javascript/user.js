@@ -32,7 +32,6 @@
     };
 
     obj.signout = function () {
-      socketio.disconnect();
       obj.currentUser = null;
       $window.localStorage.removeItem('com.TriviaWithFriends');
       $window.localStorage.removeItem('com.TriviaWithFriends.username');
