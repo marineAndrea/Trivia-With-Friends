@@ -103,7 +103,8 @@
       gameDataInit();
     });
 
-    socket.on('endGame', function(){
+    socket.on('endGame', function(data){
+      $scope.winner = data.winner;
       console.log('game over, man. game over');
       socket.disconnect()); // socket.close()?
       $location.path("/trivia/endgame");

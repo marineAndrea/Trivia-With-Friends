@@ -22,6 +22,25 @@
         </div>
       </div>
 
+      <!-- winner identity -->
+      <div>
+        {{ winner.username === player.username ? "You win!" : winner.username + "wins!" }}
+      </div>
+
+      <!-- opponents' scores -->
+      <div>
+        <table>
+          <tr>
+            <th>Username</th>
+            <th>Scores</th>
+          </tr>
+          <tr ng-repeat="opponent in opponents">
+            <td>opponent.username</td>
+            <td>opponent.score</td>
+          </tr>
+        </table>
+      </div>
+
       <!-- game summary -->
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
