@@ -72,6 +72,7 @@
       for (var key in data) {
         
         if (key === 'question') {
+          $scope.error = null; // clear any error messages for a new question
           setCountdown(); 
         }
 
@@ -104,11 +105,18 @@
 
     socket.on('endGame', function(){
       console.log('game over, man. game over');
+      socket.disconnect()); // socket.close()?
+      $location.path("/trivia/endgame");
     });
 
     var joinGame = function() {
       socket.connect('http://localhost:8000');
     };
+
+    socket.on('fullGame', function() {
+      $scope.fullGameError = true;
+      socket.emit('fullGameReceived');
+    });
 
     //for handling user answers to trivia
    $scope.checkAnswer = function(keyEvent, question) {

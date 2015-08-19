@@ -21,17 +21,7 @@ var getQuestions = function(){
   });
 };
 
-module.exports = function(app){
-  var httpServer = require('http').Server(app);
-  var io = require('socket.io')(httpServer);
-
-  var questions = getQuestions();
-
-  for (var i = 0; i < questions.length; i++) {
-    questions[i].playersAttempted = [];
-  }
-
-  // Things to keep track of
+var makeGameObj = function() {
   var gameObj = {
     players: [],
     questions: questions,
@@ -48,37 +38,74 @@ module.exports = function(app){
       }
     }
   };
+  return gameObj;
+};
+
+var handleEndGame = function() {
+  gameObj = makeGameObj();
+
+  // TODO: update users
+  // TODO: save game onto database
+
+};
+
+module.exports = function(app){
+  var httpServer = require('http').Server(app);
+  var io = require('socket.io')(httpServer);
+
+  var questions = getQuestions();
+
+  for (var i = 0; i < questions.length; i++) {
+    questions[i].playersAttempted = [];
+  }
+
+  var gameObj = makeGameObj();
 
   var moveOnToNextQuestion = function() {
     gameObj.questionNumber++;
     if (gameObj.questionNumber === gameObj.maxNumQuestions) {
-      // score the game
-      data = {winner: winnerName, message: winnerName+"wins!"};
+      var winner;
+      for(var i = 0; i < gameObj.players.length; i++){
+        if (!winner){
+          winner = gameObj.players[i];
+        } else (winner.score < gameObj.players[i].score){
+          winner = gameObj.players[i];
+        }
+      }
+      data = {winner: winner.username, message: winner.username+"wins!"};
       io.emit('endGame', data);
+      handleEndGame();
     } else {
       io.emit('update', {
+        var q = gameObj.currQuest();
         players: gameObj.players,
-        question: gameObj.currQuest().question,
+        question: {question: q.question, category: q.category, value: q.value},
         prevQuest: gameObj.prevQuest()
       });
     }
   };
 
   var handleClientOnConnection = function(socket) {
-
     socket.on('getUsername', function(data){
-      socket.username = data.username;
-      gameObj.players.push({username: socket.username, score: 0});
+      if (gameObj.players.length < 3) {
+        socket.username = data.username;
+        gameObj.players.push({username: socket.username, score: 0});
+      } else {
+        // Game is already full
+        socket.emit('fullGame');
+        socket.on('fullGameReceived', function() {
+          socket.disconnect(); // socket.close()?
+        });
+      }
     });
     
     // Update everyone with the new player
     io.emit('update', {players: gameObj.players});
     
     // Start the game if there are 3 players
-    if (numPlayers === 3) {
+    if (gameObj.players.length === 3) {
       io.emit('startGame');
-
-      // moveOnToNextQuestion();
+      moveOnToNextQuestion();
     }
 
     // A player answers
@@ -90,8 +117,8 @@ module.exports = function(app){
 
       if (currQuest.playersAttempted.indexOf(socket.username)) {
         
-      //     player already attempte this question, so s/he cannot answer anymore
-        data = {error: "You can only attempt a question once"};
+      // Player already attempted this question, so s/he cannot answer anymore
+        data = {error: "You can only attempt a question once!"};
         socket.emit('update', data);
         return;
       }
