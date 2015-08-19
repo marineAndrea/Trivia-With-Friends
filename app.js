@@ -1,4 +1,4 @@
-var express = require('express');
+anbvar express = require('express');
 var path = require('path');
 var mongoose = require('mongoose');
 var app = express();
@@ -6,7 +6,9 @@ var app = express();
 
 require('./server/config/middleware.js')(app, express);
 
-mongoURI = process.env.MONGOLAB_URI || 'mongodb://localhost/TriviaWithFriends';
+// mongoURI = process.env.MONGOLAB_URI || 'mongodb://localhost/TriviaWithFriends';
+mongoURI = process.env.MONGOLAB_URI || 'mongodb://banal:banal@ds033113.mongolab.com:33113/heroku_nn2mcqhl';
+
 
 mongoose.connect(mongoURI);
 
