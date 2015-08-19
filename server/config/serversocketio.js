@@ -72,7 +72,7 @@ module.exports = function(app){
           winner = gameObj.players[i];
         }
       }
-      data = {winner: winner.username, message: winner.username+"wins!"};
+      data = {winner: winner, message: winner.username+"wins!"};
       io.emit('endGame', data);
       handleEndGame();
     } else {
