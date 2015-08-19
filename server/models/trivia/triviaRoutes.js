@@ -6,8 +6,8 @@ var cleanAnswer = function(answer) {
 };
 
 module.exports = function(app){
-  app.post('/', triviaController.checkAnswer);
-  app.get('/', function(req, res) {
+  // app.post('/', triviaController.checkAnswer);
+  // app.get('/', function(req, res) {
     unirest.get("http://jservice.io/api/random?count=100") // changed to 100
     .header("Accept", "application/json")
     .end(function (result) {
@@ -24,8 +24,12 @@ module.exports = function(app){
           pureQuestionsArr.push(questionObj);
         }
       }
-      res.send(pureQuestionsArr);
+      // res.send(pureQuestionsArr);
+      return {
+        'pureQuestionsArr': pureQuestionsArr,
+        'questions': result.body
+      };
     });
-  });
+  // });
 
 };

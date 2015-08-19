@@ -85,8 +85,7 @@
             } else {
               $scope.opponents.push(player);
             }
-          }
-        } else {
+          }        } else {
           $scope[key] = data[key];
         }
       }
@@ -99,6 +98,7 @@
     });
     
     socket.on('startGame', function(){
+
       $scope.gameOn = true;  
       gameDataInit();
     });
@@ -106,7 +106,7 @@
     socket.on('endGame', function(data){
       $scope.winner = data.winner;
       console.log('game over, man. game over');
-      socket.disconnect()); // socket.close()?
+      socket.disconnect(); // socket.close()?
       $location.path("/trivia/endgame");
     });
 

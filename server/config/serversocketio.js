@@ -1,7 +1,7 @@
-var getQuestions = require('../../models/trivia/triviaRoutes');
 var unirest = require('unirest');
+// var io = require('socket.io')(app);
 
-var getQuestions = function(){
+var getQuestions = function(callback){
   unirest.get("http://jservice.io/api/random?count=10") // changed to 100
     .header("Accept", "application/json")
     .end(function (result) {
@@ -17,14 +17,14 @@ var getQuestions = function(){
         trivia.value = collection[i].value;
         triviaArr.push(trivia);
     }
-    return triviaArr;
+    callback(triviaArr);
   });
 };
 
 var makeGameObj = function() {
   var gameObj = {
     players: [],
-    questions: questions,
+    questions: null,
     maxNumQuestions: 10,
     questionNumber: -1,
     currQuest: function(){
@@ -50,16 +50,19 @@ var handleEndGame = function() {
 };
 
 module.exports = function(app){
-  var httpServer = require('http').Server(app);
-  var io = require('socket.io')(httpServer);
-
-  var questions = getQuestions();
-
-  for (var i = 0; i < questions.length; i++) {
-    questions[i].playersAttempted = [];
-  }
+  var httpServer = require('http').createServer(app);
+  var io = require('socket.io').listen(httpServer);
+  httpServer.listen(app.get('port'));
 
   var gameObj = makeGameObj();
+  
+  getQuestions(function(questions){
+    for (var i = 0; i < questions.length; i++) {
+      questions[i].playersAttempted = [];
+    }
+    gameObj.questions = questions;
+  });
+
 
   var moveOnToNextQuestion = function() {
     gameObj.questionNumber++;
@@ -68,7 +71,7 @@ module.exports = function(app){
       for(var i = 0; i < gameObj.players.length; i++){
         if (!winner){
           winner = gameObj.players[i];
-        } else (winner.score < gameObj.players[i].score){
+        } else if (winner.score < gameObj.players[i].score){
           winner = gameObj.players[i];
         }
       }
@@ -76,8 +79,8 @@ module.exports = function(app){
       io.emit('endGame', data);
       handleEndGame();
     } else {
+      var q = gameObj.currQuest();
       io.emit('update', {
-        var q = gameObj.currQuest();
         players: gameObj.players,
         question: {question: q.question, category: q.category, value: q.value},
         prevQuest: gameObj.prevQuest()
