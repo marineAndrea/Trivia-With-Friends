@@ -49,12 +49,32 @@ var handleEndGame = function() {
 
 };
 
+var setCountdown = function() {
+  // reset timer
+  if (gameTimer) {
+    clearInterval(gameTimer);
+  }
+  // initialize timer number
+  var counter = 30;
+  gameTimer = setInterval(function() {
+    io.emit('counter', {counter: counter});
+    if (counter === 0) {
+      clearInterval(gameTimer);
+      var currQuest = gameObj.currQuest();
+      currQuest.winner = "nobody :(";
+      moveOnToNextQuestion();
+    }
+    counter--;
+  }, 1000);
+};
+
 module.exports = function(app){
   var httpServer = require('http').createServer(app);
   var io = require('socket.io').listen(httpServer);
   httpServer.listen(app.get('port'));
 
   var gameObj = makeGameObj();
+  var gameTimer;
   
   getQuestions(function(questions){
     for (var i = 0; i < questions.length; i++) {
@@ -63,10 +83,9 @@ module.exports = function(app){
     gameObj.questions = questions;
   });
 
-
   var moveOnToNextQuestion = function() {
     gameObj.questionNumber++;
-    if (gameObj.questionNumber === gameObj.maxNumQuestions) {
+    if (gameObj.questionNumber === gameObj.maxNumQuestions) { // game over
       var winner;
       for(var i = 0; i < gameObj.players.length; i++){
         if (!winner){
@@ -78,7 +97,8 @@ module.exports = function(app){
       data = {winner: winner, message: winner.username+"wins!"};
       io.emit('endGame', data);
       handleEndGame();
-    } else {
+    } else { // new question
+      setCountdown();
       var q = gameObj.currQuest();
       io.emit('update', {
         players: gameObj.players,
