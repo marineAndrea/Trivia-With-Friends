@@ -17,7 +17,7 @@ var getQuestions = function(callback){
         trivia.id = collection[i].id;
         trivia.answer = collection[i].answer;
         trivia.question = collection[i].question;
-        trivia.category = collection[i].category.title;
+        trivia.category = collection[i].category;
         trivia.value = collection[i].value;
         triviaArr.push(trivia);
     }
@@ -98,7 +98,8 @@ module.exports = function(io){
         io.emit('update', {
           players: gameObj.players,
           question: {question: q.question, category: q.category, value: q.value},
-          prevQuest: gameObj.prevQuest()
+          prevQuest: gameObj.prevQuest(),
+          questionNumber: gameObj.questionNumber + 1
         });
       }
     };
@@ -139,8 +140,8 @@ module.exports = function(io){
           return;
         }
 
-        // correct answer:
-        if (answer === correctAnswer) {
+        // correct answer
+        if (answer.toLowerCase() === correctAnswer.toLowerCase()) {
           for (var i = 0; i < players; i++) {
             var player = players[i];
             if (player.username === socket.username){
@@ -150,7 +151,8 @@ module.exports = function(io){
               return;
             }          
           }
-        } else {
+        } else { // wrong answer
+          socket.emit('update', {error: "Wrong answer!"});
           currQuest.playersAttempted.push(socket.username);
           if (players.length === currQuest.playersAttempted.length) {
             currQuest.winner = "nobody :(";
