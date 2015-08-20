@@ -17,7 +17,7 @@
   return {
     restrict: 'EA',
 
-    scope: 
+    scope: false,
 
     link: function (scope, element, attrs) {
         console.log(element);

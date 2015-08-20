@@ -8,9 +8,7 @@ angular.module('app.d3', [])
   return {
     restrict: 'EA',
 
-    scope: {
-      d3values: 
-    },
+    scope: false,
 
     link: function (scope, element, attrs) {
       scope.

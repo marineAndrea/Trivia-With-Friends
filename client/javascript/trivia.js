@@ -61,14 +61,15 @@
       gameDataInit();
     });
 
+    
     socketio.on('endGame', function(data){
       $scope.winner = data.winner;
-      // debugger;
       // $scope.player.score = data.score;
       // $scope.opponent = data.opponents;
       console.log('game over, man. game over');
       // debugger;
       $location.path("/trivia/endgame");
+      console.log('=========>',$scope);
       socketio.disconnect(); // socketio.close()?
     });
 

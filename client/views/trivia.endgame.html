@@ -24,7 +24,8 @@
 
       <!-- winner identity -->
       <div>
-        {{ winner }}
+        {{ $parent.player }}
+        {{ rootScope }}
         {{ player }}
         {{ winner.username === player.username ? "You win!" : winner.username + " wins!" }}
       </div>
