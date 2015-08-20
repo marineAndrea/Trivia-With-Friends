@@ -65,11 +65,11 @@ module.exports = function(io){
       }
       counter--;
     }, 1000);
+    return gameTimer;
   };
 
   var gameObj = makeGameObj();
   var gameTimer;
-
     
     getQuestions(function(questions){
       for (var i = 0; i < questions.length; i++) {
@@ -93,7 +93,7 @@ module.exports = function(io){
         io.emit('endGame', data);
         Game.handleEndGame(gameObj);
       } else { // new question
-        setCountdown(gameTimer);
+        gameTimer = setCountdown(gameTimer);
         var q = gameObj.currQuest();
         io.emit('update', {
           players: gameObj.players,
