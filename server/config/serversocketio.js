@@ -80,6 +80,9 @@ module.exports = function(io){
     var moveOnToNextQuestion = function() {
       gameObj.questionNumber++;
       if (gameObj.questionNumber === gameObj.maxNumQuestions) { // game over
+        io.emit('update', {
+          players: gameObj.players,
+        });
         var winner;
         for(var i = 0; i < gameObj.players.length; i++){
           if (!winner){
