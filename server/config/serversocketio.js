@@ -3,8 +3,10 @@ var unirest = require('unirest');
 // var io = require('socket.io')(app);
 
 var Game = require('../models/game/gameController');
-var numberOfPlayers = 1;
-var numberOfQuestions = 1; //Max 100
+var numberOfPlayers = 2;
+var numberOfQuestions = 0; //Max 100
+var maxTime = 30;
+
 var getQuestions = function(callback){
   unirest.get("http://jservice.io/api/random?count=" + numberOfQuestions) // changed to 100
     .header("Accept", "applcation/json")
@@ -53,7 +55,7 @@ module.exports = function(io){
       clearInterval(gameTimer);
     }
     // initialize timer number
-    var counter = 9999;
+    var counter = maxTime;
     gameTimer = setInterval(function() {
       io.emit('counter', {counter: counter});
       if (counter === 0) {
