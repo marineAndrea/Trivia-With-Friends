@@ -4,13 +4,12 @@ var unirest = require('unirest');
 
 var Game = require('../models/game/gameController');
 var numberOfPlayers = 2;
+var numberOfQuestions = 2; //Max 100
 var getQuestions = function(callback){
-  unirest.get("http://jservice.io/api/random?count=10") // changed to 100
-    .header("Accept", "application/json")
+  unirest.get("http://jservice.io/api/random?count=" + numberOfQuestions) // changed to 100
+    .header("Accept", "applcation/json")
     .end(function (result) {
       var triviaArr = [];
-      // var parsed = JSON.parse(result);
-      // console.log(']]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]',result.body);
       var collection = result.body;
       for(var i = 0; i < collection.length; i++){
         var trivia = {};
@@ -29,7 +28,7 @@ var makeGameObj = function() {
   var gameObj = {
     players: [],
     questions: null,
-    maxNumQuestions: 10,
+    maxNumQuestions: numberOfQuestions,
     questionNumber: -1,
     currQuest: function(){
       console.log(this.questionNumber);
@@ -54,7 +53,7 @@ module.exports = function(io){
       clearInterval(gameTimer);
     }
     // initialize timer number
-    var counter = 30;
+    var counter = 9999;
     gameTimer = setInterval(function() {
       io.emit('counter', {counter: counter});
       if (counter === 0) {
@@ -89,7 +88,7 @@ module.exports = function(io){
             winner = gameObj.players[i];
           }
         }
-        data = {winner: winner, message: winner.username+"wins!"};
+        var data = {winner: winner, message: winner.username+"wins!"};
         io.emit('endGame', data);
         Game.handleEndGame(gameObj);
       } else { // new question
@@ -114,7 +113,7 @@ module.exports = function(io){
           gameObj.players.push({username: socket.username, score: 0});
           console.log("PLAYERS FROM GET USERNAME EVENT LISTENER",gameObj.players);
           if (gameObj.players.length === numberOfPlayers) {
-            io.emit('startGame');
+            io.emit('startGame', {numberOfQuestions: numberOfQuestions});
             moveOnToNextQuestion();
           }
         } else {
