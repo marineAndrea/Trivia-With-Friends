@@ -21,12 +21,12 @@
           <div class="play-trivia-question-panel panel panel-primary">
             <div class="panel-heading">
               <h3 class="panel-title">
-                Category: {{q.category.title}}
+                Category: {{question.category}}
               </h3>
             </div>
             <div class="panel-body">
               <h4 class="play-trivia-question-txt">
-                {{q.question}}
+                {{question.question}}
               </h4>
             </div>
           </div>
@@ -49,17 +49,18 @@
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
           <div class="play-trivia-question-panel panel panel-primary">
+            Preious Question:
             <div class="panel-heading">
               <h3 class="panel-title">
-                Category: {{prevQ.category.title}}
+                Category: {{prevQuest.category}}
               </h3>
             </div>
             <div class="panel-body">
               <h4 class="play-trivia-question-txt">
-                {{ prevQ.question }}
+                {{ prevQuest.question }}
               </h4>
               <h4>
-                {{ prevQ.answer }}
+                {{ prevQuest.answer }}
               </h4>
             </div>
           </div>

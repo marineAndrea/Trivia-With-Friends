@@ -6,6 +6,8 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);;
 
 require('./server/config/middleware.js')(app, express);
+require('./server/config/serversocketio.js')(io);
+
 
 // mongoURI = process.env.MONGOLAB_URI || 'mongodb://localhost/TriviaWithFriends';
 mongoURI = process.env.MONGOLAB_URI || 'mongodb://banal:banal@ds033113.mongolab.com:33113/heroku_nn2mcqhl';

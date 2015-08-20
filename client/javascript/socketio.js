@@ -1,8 +1,8 @@
 angular.module('socketio', [])
-.factory('socketio', function ($rootScope, $window) {
-  
-  var socket = io.connect("http://localhost:3000");
 
+.factory('socketio', function ($rootScope, $window ) {
+
+  var socket = io.connect("http://localhost:3000");
   
   return {
     on: function (eventName, callback) {
@@ -25,6 +25,6 @@ angular.module('socketio', [])
           }
         });
       });
-    },
+    }
   };
 });

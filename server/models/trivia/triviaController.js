@@ -34,22 +34,23 @@ module.exports = {
     return retString;
   },
 
-  addQuestion: function(result){
-    var questions = [];
-    var cleanAnswer = function(answer) {
-      return answer.replace(/<\/?i>/g, '');
-    };
-    for(var i = 0; i < result.body.length; i++){
-      var answer = cleanAnswer(result.body[i].answer);
-      questions.push({
-        id: result.body[i].id,
-        question: result.body[i].question,
-        answer: answer
-      });
-    }
-    Trivia.collection.insert(questions, function(){
-      //null
-    });
-  }
+  // addQuestion: function(result){
+  //   var questions = [];
+  //   var cleanAnswer = function(answer) {
+  //     return answer.replace(/<\/?i>/g, '');
+  //   };
+  //   console.log(result.body)
+  //   for(var i = 0; i < result.body.length; i++){
+  //     var answer = cleanAnswer(result.body[i].answer);
+  //     questions.push({
+  //       id: result.body[i].id,
+  //       question: result.body[i].question,
+  //       answer: answer
+  //     });
+  //   }
+  //   Trivia.collection.insert(questions, function(){
+  //     //null
+  //   });
+  // }
 
 };
