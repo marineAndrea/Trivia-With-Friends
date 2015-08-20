@@ -3,8 +3,8 @@ var unirest = require('unirest');
 // var io = require('socket.io')(app);
 
 var Game = require('../models/game/gameController');
-var numberOfPlayers = 2;
-var numberOfQuestions = 2; //Max 100
+var numberOfPlayers = 1;
+var numberOfQuestions = 1; //Max 100
 var getQuestions = function(callback){
   unirest.get("http://jservice.io/api/random?count=" + numberOfQuestions) // changed to 100
     .header("Accept", "applcation/json")
