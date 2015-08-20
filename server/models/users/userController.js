@@ -7,13 +7,12 @@ var secret = 'This really shouldn\'t be in the git repo. Replace with a secure s
 
 module.exports = {
 
-  updateUser: function(userObject){
+  updateUser: function(userObject, game){
     var username = userObject.username;
     var userLevel;
     var score = userObject.score;
     var correct = userObject.correct;
     var correctStreak = userObject.correctStreak;
-    var answered = userObject.answered;
     var query = {username: username};
     var oldScore;
     var newScore;
@@ -75,13 +74,7 @@ module.exports = {
         });        
 
         User.findOneAndUpdate(query, { 
-          games: $push({
-            opponents: 
-            datePlayed: new Date(),
-            xpEarned: score,
-            questionsAnswered: answered,
-            questionsAnsweredCorrect: correct
-          }
+          games: $push(game.id)
         }, function(arg){
           //null
         });

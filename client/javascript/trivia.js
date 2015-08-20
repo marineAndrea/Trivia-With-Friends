@@ -2,7 +2,7 @@
 
   var app = angular.module('Trivia', ['Profile']);
 
-  app.controller('TriviaController', ['$scope', '$http', 'Questions', '$interval', '$location', 'ProfileFactory', function($scope, $http, Questions, $interval, $location, ProfileFactory) {
+  app.controller('TriviaController', ['$scope', '$window', '$http', '$interval', '$location', 'ProfileFactory', 'socketio',function($scope, $window, $http, $interval, $location, ProfileFactory, socketio) {
 
     //sample trivia api response for chai test
     $scope.player = {};
@@ -10,6 +10,7 @@
     $scope.q = {};
     $scope.prevQ = {};
     $scope.gameOn = false;
+    $scope.waiting = false;
     $scope.username = ProfileFactory.getUsername();
 
     // initialize game data
@@ -22,7 +23,13 @@
       $scope.score = 0;
     };
 
-    socket.on('update', function(data){
+    socketio.on('testing', function(){
+      console.log('received testing');
+      socketio.emit('sending', {data: 'hello'});
+    });
+
+
+    socketio.on('update', function(data){
       for (var key in data) {
         
         if (key === 'question') {
@@ -44,39 +51,38 @@
         }
       }
     });
-
-    socket.on('connect', function(){
-      socket.emit('getUsername', {
-        username: $window.localStorage.removeItem('com.TriviaWithFriends.username')
-      });
-    });
     
-    socket.on('startGame', function(){
-
+    socketio.on('startGame', function(){
+      $scope.waiting = false;
       $scope.gameOn = true;  
       gameDataInit();
     });
 
-    socket.on('endGame', function(data){
+    socketio.on('endGame', function(data){
       $scope.winner = data.winner;
       console.log('game over, man. game over');
-      socket.disconnect(); // socket.close()?
+      socketio.disconnect(); // socketio.close()?
       $location.path("/trivia/endgame");
     });
 
-    var joinGame = function() {
-      socket.connect('http://localhost:8000');
+    $scope.joinGame = function() {
+      socketio.emit('hello');
+      socketio.socket.emit('getUsername', {
+        username: $window.localStorage.removeItem('com.TriviaWithFriends.username')
+      });
+      $scope.waiting = true;
     };
 
-    socket.on('fullGame', function() {
+    socketio.on('fullGame', function() {
       $scope.fullGameError = true;
-      socket.emit('fullGameReceived');
+      socketio.emit('fullGameReceived');
     });
 
-    socket.on('counter', function(data) {
+    socketio.on('counter', function(data) {
       $scope.counter = data.counter;
     });
 
+    var joinGame = $scope.joinGame;
 
     // TO DO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     //for handling user answers to trivia
@@ -88,33 +94,13 @@
           answer: question.userAnswer,
         };
 
-        socket.emit('answer', input);
-
-
-        // return $http.post('/api/trivia', {
-        //   id: id,
-        //   value: value,
-        //   userAns: userAns
-        // }).then(function (res) {
-        //   var q = res.data;
-        //   if(q.correct){
-        //     $scope.correct++;
-        //     $scope.currentStreak++;
-        //     $scope.score += value;
-        //   }else{
-        //     $scope.currentStreak = 0;
-        //   }
-        //   if($scope.currentStreak > $scope.correctStreak){
-        //     $scope.correctStreak = $scope.currentStreak;
-        //   }
-        //   $scope.nextLoc();
-        // });
+        socketio.emit('answer', input);
       }
     };
 
     // disconect socket if user navigates away from questions
     $scope.$on('$destroy', function() {
-      socket.disconnect();
+      socketio.disconnect();
     });
 
   }]);

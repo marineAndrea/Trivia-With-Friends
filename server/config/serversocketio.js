@@ -2,7 +2,7 @@ var unirest = require('unirest');
 
 // var io = require('socket.io')(app);
 
-var Game = require('../../models/game/gameController');
+var Game = require('../models/game/gameController');
 
 var getQuestions = function(callback){
   unirest.get("http://jservice.io/api/random?count=10") // changed to 100
@@ -64,10 +64,7 @@ var setCountdown = function() {
   }, 1000);
 };
 
-module.exports = function(app){
-  var httpServer = require('http').createServer(app);
-  var io = require('socket.io').listen(httpServer);
-  httpServer.listen(app.get('port'));
+module.exports = function(io){
 
   var gameObj = makeGameObj();
   var gameTimer;
@@ -104,7 +101,8 @@ module.exports = function(app){
     }
   };
 
-  var handleClientOnConnection = function(socket) {
+  var handleClientOnJoinGame = function(socket) {
+    console.log('added player!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', gameObj);
     socket.on('getUsername', function(data){
       if (gameObj.players.length < 3) {
         socket.username = data.username;
@@ -169,7 +167,9 @@ module.exports = function(app){
       //numPlayers--;
     });
   };
-
-  io.on('connection', handleClientOnConnection);
+  io.on('joinGame', function(socket){
+    console.log('cdsacadscdascdadcsads');
+  })
+  io.on('joinGame', handleClientOnJoinGame);
 
 };

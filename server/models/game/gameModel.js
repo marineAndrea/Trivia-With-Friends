@@ -17,7 +17,8 @@ var GameSchema = new mongoose.Schema({
     questionsAnsweredCorrect: {
       type: Number,
       default: 0
-    }]
+    }
+  }]
 });
 
 module.exports = mongoose.model('games', GameSchema);
