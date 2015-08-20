@@ -9,11 +9,14 @@
           <h4>Question {{ questionNumber }} out of 10 questions</h4>
         </div>
         <div class="col-md-6 text-right">
+          <h4>Your Score:</h4>
+          <h5> 
+            {{player.username}}: {{player.score}}
+          </h5>
           <h4>Opponent Scores:</h4>
-          <h4 ng-repeat="opponent in opponents"> 
+          <h5 ng-repeat="opponent in opponents"> 
             {{opponent.username}}: {{opponent.score}}
-          </h4>
-          <h4>Your Score: {{player.score}}</h4>
+          </h5>
         </div>
       </div>
 
@@ -62,6 +65,9 @@
               </h4>
               <h4>
                 {{ prevQuest.answer }}
+              </h4>
+              <h4>
+                {{ prevQuest.winner }}
               </h4>
             </div>
           </div>

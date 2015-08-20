@@ -142,7 +142,7 @@ module.exports = function(io){
 
         // correct answer
         if (answer.toLowerCase() === correctAnswer.toLowerCase()) {
-          for (var i = 0; i < players; i++) {
+          for (var i = 0; i < players.length; i++) {
             var player = players[i];
             if (player.username === socket.username){
               player.score += currQuest.value;
