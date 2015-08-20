@@ -43,7 +43,7 @@
           for(var i = 0; i < players.length; i++) {
             var player = players[i];
             var thisUsername = $scope.username;
-            if (player.name === thisUsername ) {
+            if (player.username === thisUsername ) {
               $scope.player = player;
             } else {
               $scope.opponents.push(player);
