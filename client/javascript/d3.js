@@ -1,17 +1,16 @@
+
 angular.module('app.d3', [])
 .directive('dthree', function(){
-  var width = 300;
-  var height = 300;
+  var width = '100%';
+  var height = '100%';
   var color = 'purple';
 
-  console.log('link function', scope.d3values);
   return {
     restrict: 'EA',
 
     scope: false,
 
     link: function (scope, element, attrs) {
-      scope.
         console.log(element);
         var graph = d3.select(element[0]);
         
@@ -35,7 +34,6 @@ angular.module('app.d3', [])
         
         scope.$watch('d3values', function (newVal, oldVal) {
           updateGraph(scope.d3values);
-          console.log('hello');
         });
     }
   };

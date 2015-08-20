@@ -1,4 +1,4 @@
-<div ng-controller="TriviaController">
+<div>
   <div class="play-trivia-view col-md-6 col-md-offset-3">
 
     <div class="col-md-12">
@@ -26,7 +26,7 @@
       <div>
         {{ $parent.player }}
         {{ rootScope }}
-        {{ player }}
+        {{ opponents }}
         {{ winner.username === player.username ? "You win!" : winner.username + " wins!" }}
       </div>
 
