@@ -24,7 +24,6 @@
     };
 
     socketio.on('testing', function(){
-      console.log('received testing');
       socketio.emit('sending', {data: 'hello'});
     });
 
@@ -33,11 +32,10 @@
 
       for (var key in data) {
         
-        if (key === 'question') {
-          console.log('NEW QUESTION!',data);
+        if (key === 'question') { // new question received
+          $scope.question = data.question;
           $scope.error = null; // clear any error messages for a new question
         } else if(key === 'players') {
-          console.log('PLAYERS BEING UPDATED', data.players);
           var players = data[key];
           $scope.opponents = [];
           for(var i = 0; i < players.length; i++) {
@@ -70,7 +68,6 @@
 
     $scope.joinGame = function() {
       socketio.emit('joinGame');
-      console.log('INSIDE JOINGAME',$scope.username);
       socketio.emit('getUsername', {
         username: $scope.username
       });
