@@ -5,7 +5,7 @@
 
       <div class="row">
         <div class="col-md-12 text-center">
-          <h1>Final Score: {{score}}</h1>
+          <h1>Final Score: {{player.score}}</h1>
         </div>
       </div>
 
@@ -24,7 +24,9 @@
 
       <!-- winner identity -->
       <div>
-        {{ winner.username === player.username ? "You win!" : winner.username + "wins!" }}
+        {{ winner }}
+        {{ player }}
+        {{ winner.username === player.username ? "You win!" : winner.username + " wins!" }}
       </div>
 
       <!-- opponents' scores -->
@@ -35,8 +37,8 @@
             <th>Scores</th>
           </tr>
           <tr ng-repeat="opponent in opponents">
-            <td>opponent.username</td>
-            <td>opponent.score</td>
+            <td>{{ opponent.username }}</td>
+            <td>{{ opponent.score }}</td>
           </tr>
         </table>
       </div>

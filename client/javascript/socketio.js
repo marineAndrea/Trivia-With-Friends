@@ -18,6 +18,10 @@ angular.module('socketio', [])
       });
     },
 
+    disconnect: function(){
+      socket.disconnect();
+    },
+
     emit: function (eventName, data, callback) {
       socket.emit(eventName, data, function () {
         var args = arguments;

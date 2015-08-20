@@ -35,6 +35,14 @@
 .play-trivia-question-panel {
   box-shadow: none;
 }
+.play-trivia-previous-question-panel {
+  background-color: #697683;
+  text-align: center;
+}
+
+.play-trivia-previous-question-panel h5{
+  font-weight: 500;
+}
 .play-trivia-question-txt {
   line-height: 180%;
   margin: 0;

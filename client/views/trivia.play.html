@@ -6,7 +6,7 @@
       <div class="row play-trivia-row">
         <div class="col-md-6">
           <h4>Time left: {{counter}}</h4>
-          <h4>Question {{ questionNumber }} out of 10 questions</h4>
+          <h4>Question {{ questionNumber }} out of {{ numberOfQuestions }} questions</h4>
         </div>
         <div class="col-md-6 text-right">
           <h4>Your Score:</h4>
@@ -50,25 +50,19 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row" ng-show="prevQuest">
         <div class="col-md-10 col-md-offset-1">
-          <div class="play-trivia-question-panel panel panel-primary">
-            Previous Question:
-            <div class="panel-heading">
-              <h3 class="panel-title">
-                Category: {{prevQuest.category.title}}
-              </h3>
-            </div>
+          <div class="play-trivia-previous-question-panel panel panel-primary">
             <div class="panel-body">
-              <h4 class="play-trivia-question-txt">
-                {{ prevQuest.question }}
-              </h4>
-              <h4>
-                {{ prevQuest.answer }}
-              </h4>
-              <h4>
-                {{ prevQuest.winner }}
-              </h4>
+              <h4>Previous Question</h5>
+              <h5>Category</h5> 
+                <h6>{{prevQuest.category.title}}</h6>
+              <h5>Question</h5> 
+                <h6 class="play-trivia-question-txt">{{ prevQuest.question }}</h6>
+              <h5>Answer</h5>
+                <h6>{{ prevQuest.answer }}</h6>
+              <h5>Correct guesser</h5>
+                <h6>{{ prevQuest.winner }}</h6>
             </div>
           </div>
         </div>

@@ -33,6 +33,7 @@
       for (var key in data) {
         
         if (key === 'question') { // new question received
+          $scope.q.userAnswer = "";
           $scope.question = data.question;
           $scope.error = null; // clear any error messages for a new question
         } else if(key === 'players') {
@@ -53,17 +54,22 @@
       }
     });
     
-    socketio.on('startGame', function(){
+    socketio.on('startGame', function(data){
       $scope.waiting = false;
-      $scope.gameOn = true;  
+      $scope.gameOn = true;
+      $scope.numberOfQuestions = data.numberOfQuestions;  
       gameDataInit();
     });
 
     socketio.on('endGame', function(data){
       $scope.winner = data.winner;
+      // debugger;
+      // $scope.player.score = data.score;
+      // $scope.opponent = data.opponents;
       console.log('game over, man. game over');
-      socketio.disconnect(); // socketio.close()?
+      // debugger;
       $location.path("/trivia/endgame");
+      socketio.disconnect(); // socketio.close()?
     });
 
     $scope.joinGame = function() {
@@ -101,6 +107,7 @@
 
     // disconect socket if user navigates away from questions
     $scope.$on('$destroy', function() {
+
       socketio.disconnect();
     });
 
