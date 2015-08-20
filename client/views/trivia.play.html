@@ -6,6 +6,7 @@
       <div class="row play-trivia-row">
         <div class="col-md-6">
           <h4>Time left: {{counter}}</h4>
+          <h4>Question {{ questionNumber }} out of 10 questions</h4>
         </div>
         <div class="col-md-6 text-right">
           <h4>Opponent Scores:</h4>
@@ -49,10 +50,10 @@
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
           <div class="play-trivia-question-panel panel panel-primary">
-            Preious Question:
+            Previous Question:
             <div class="panel-heading">
               <h3 class="panel-title">
-                Category: {{prevQuest.category}}
+                Category: {{prevQuest.category.title}}
               </h3>
             </div>
             <div class="panel-body">

@@ -30,23 +30,26 @@
 
 
     socketio.on('update', function(data){
-      console.log(data);
+
       for (var key in data) {
         
         if (key === 'question') {
+          console.log('NEW QUESTION!',data);
           $scope.error = null; // clear any error messages for a new question
-        }
-
-        if(key === 'players'){
-          for(var i = 0; i < data[key]; i++) {
-            var player = data[key][i];
-            var thisUsername = $window.localStorage.getItem('com.TriviaWithFriends.username');
+        } else if(key === 'players') {
+          console.log('PLAYERS BEING UPDATED', data.players);
+          var players = data[key];
+          $scope.opponents = [];
+          for(var i = 0; i < players.length; i++) {
+            var player = players[i];
+            var thisUsername = $scope.username;
             if (player.name === thisUsername ) {
               $scope.player = player;
             } else {
               $scope.opponents.push(player);
             }
-          }        } else {
+          } 
+        } else {
           $scope[key] = data[key];
         }
       }
@@ -67,8 +70,9 @@
 
     $scope.joinGame = function() {
       socketio.emit('joinGame');
+      console.log('INSIDE JOINGAME',$scope.username);
       socketio.emit('getUsername', {
-        username: $window.localStorage.removeItem('com.TriviaWithFriends.username')
+        username: $scope.username
       });
       $scope.waiting = true;
     };
