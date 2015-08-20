@@ -112,7 +112,7 @@ module.exports = function(io){
         if (gameObj.players.length < numberOfPlayers) {
           socket.username = data.username;
           gameObj.players.push({username: socket.username, score: 0});
-          console.log(gameObj.players.length);
+          console.log("PLAYERS FROM GET USERNAME EVENT LISTENER",gameObj.players);
           if (gameObj.players.length === numberOfPlayers) {
             io.emit('startGame');
             moveOnToNextQuestion();
