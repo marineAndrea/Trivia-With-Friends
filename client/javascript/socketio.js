@@ -3,9 +3,9 @@ angular.module('socketio', [])
 .factory('socketio', function ($rootScope, $window ) {
 
   var originUrl = window.location.origin;
-  var port = process.env.PORT || 3000;
-  var connectURL = originUrl + ":" + port;
-  var socket = io.connect(connectURL);
+  // var port = location.port;
+  // var connectURL = originUrl + ":" + port;
+  var socket = io.connect(originUrl);
   
   return {
     on: function (eventName, callback) {
