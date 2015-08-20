@@ -30,11 +30,11 @@
 
 
     socketio.on('update', function(data){
+      console.log(data);
       for (var key in data) {
         
         if (key === 'question') {
           $scope.error = null; // clear any error messages for a new question
-          setCountdown(); 
         }
 
         if(key === 'players'){
@@ -66,8 +66,8 @@
     });
 
     $scope.joinGame = function() {
-      socketio.emit('hello');
-      socketio.socket.emit('getUsername', {
+      socketio.emit('joinGame');
+      socketio.emit('getUsername', {
         username: $window.localStorage.removeItem('com.TriviaWithFriends.username')
       });
       $scope.waiting = true;

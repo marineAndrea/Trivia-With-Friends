@@ -5,7 +5,6 @@ angular.module('socketio', [])
   var socket = io.connect("http://localhost:3000");
   
   return {
-    socket: socket,
     on: function (eventName, callback) {
       socket.on(eventName, function () {  
         var args = arguments;
@@ -16,8 +15,16 @@ angular.module('socketio', [])
       });
     },
 
-    emit: function (eventName, data) {
-      socket.emit(eventName, data)
+    emit: function (eventName, data, callback) {
+      socket.emit(eventName, data, function () {
+        var args = arguments;
+        console.log('socketLogger: emitted: ', eventName);
+        $rootScope.$apply(function () {
+          if (callback) {
+            callback.apply(socket, args);
+          }
+        });
+      });
     }
   };
 });
