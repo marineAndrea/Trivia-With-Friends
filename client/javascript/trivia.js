@@ -69,11 +69,10 @@
       console.log('game over, man. game over');
       // debugger;
       $location.path("/trivia/endgame");
-      console.log('=========>',$scope);
-      socketio.disconnect(); // socketio.close()?
+      // socketio.disconnect(); // socketio.close()?
     });
 
-    $scope.joinGame = function() {
+    $scope.joinGame = function() {      
       socketio.emit('joinGame');
       socketio.emit('getUsername', {
         username: $scope.username
@@ -109,7 +108,7 @@
     // disconect socket if user navigates away from questions
     $scope.$on('$destroy', function() {
 
-      socketio.disconnect();
+      // socketio.disconnect();
     });
 
   }]);

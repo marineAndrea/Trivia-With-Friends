@@ -1,5 +1,6 @@
 var Game = require('./gameModel.js');
 var User = require('../users/userModel');
+var userController = require('../users/userController')
 
 module.exports = {
     handleEndGame: function(gameObj) {
@@ -8,8 +9,9 @@ module.exports = {
         if (err) {
           console.log('error posting user', error);
         } else {
-          for (var i = 0; i < gameObj.length; i++){
-            User.updateUser(gameObj.players[i], game);
+          console.log('handleendgame',gameObj);
+          for (var i = 0; i < gameObj.players.length; i++){
+            userController.updateUser(gameObj.players[i], game);
           }
         }
       });

@@ -96,6 +96,8 @@ module.exports = function(io){
         var data = {winner: winner, message: winner.username+"wins!"};
         io.emit('endGame', data);
         Game.handleEndGame(gameObj);
+        gameObj = makeGameObj();
+        clearInterval(gameTimer);
       } else { // new question
         gameTimer = setCountdown(gameTimer);
         var q = gameObj.currQuest();
@@ -171,6 +173,7 @@ module.exports = function(io){
       });
 
       socket.on('joinGame', function(){
+        console.log('---------------->',gameObj);
         handleClientOnJoinGame(socket);
       });
       
