@@ -29,7 +29,7 @@
             <div class="endgame-summary-col col-md-6 col-md-offset-3">
 
               <!-- winner identity -->
-              <div class="row">
+              <div class="lead">
                 {{ winner.username === player.username ? "You win!" : winner.username + " wins!" }}
               </div>
 
@@ -41,8 +41,8 @@
                   <th>Scores</th>
                 </tr>
                 <tr>
-                  <td>{{ player.username }}</td>
-                  <td>{{ player.score }}</td>         
+                  <td class="col-md-8">{{ player.username }}</td>
+                  <td class="text-right">{{ player.score }}</td>         
                 </tr>
                 <tr ng-repeat="opponent in opponents">
                   <td class="col-md-8">{{ opponent.username }}</td>
