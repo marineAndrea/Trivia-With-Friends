@@ -4,13 +4,15 @@ circle {
 
 circle {
   fill:snow;
-}
+}  .axis {
+
 
 circle:hover {
   fill:gold;
 }
 
 .opponents {
+  border: 1px solid white;
   background-image: url("bckg2.jpg");
   /*background-color: #000033;*/
   background-size: 100%, 100%;
