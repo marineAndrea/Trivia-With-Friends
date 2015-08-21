@@ -55,20 +55,10 @@ module.exports = {
         User.findOneAndUpdate(query, {userLevel: userLevel}, function(arg){
           //null
         });
-        // User.findOneAndUpdate(query, { 
-        //   mostRecentGame: {
-        //     xpEarned: score,
-        //     questionsAnswered: answered,
-        //     questionsAnsweredCorrect: correct
-        //   }
-        // }, function(arg){
-        //   //null
-        // });        
         
-        console.log('userupdate line 25', user);
         User.findOneAndUpdate(query, { 
           $push: {games: game.id}
-        }, function(arg){
+        } , function(arg){
           //null
         });
       });
