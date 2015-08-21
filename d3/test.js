@@ -3,37 +3,37 @@
 
 var opponentsArr = [
   {name: 'a', level: 15, ngp: 0},
+  {name: 'b', level: 5, ngp: 1},
+  {name: 'c', level: 4, ngp: 2},
+  {name: 'd', level: 8, ngp: 3},
+  {name: 'a', level: 13, ngp: 4},
   {name: 'b', level: 5, ngp: 5},
+  {name: 'c', level: 4, ngp: 6},
+  {name: 'd', level: 8, ngp: 7},
+  {name: 'a', level: 10, ngp: 8},
+  {name: 'b', level: 5, ngp: 9},
   {name: 'c', level: 4, ngp: 10},
-  {name: 'd', level: 8, ngp: 15},
-  {name: 'a', level: 13, ngp: 0},
+  {name: 'd', level: 8, ngp: 11},
+  {name: 'a', level: 12, ngp: 10},
+  {name: 'b', level: 5, ngp: 9},
+  {name: 'c', level: 4, ngp: 8},
+  {name: 'd', level: 8, ngp: 7},
+  {name: 'a', level: 10, ngp: 6},
   {name: 'b', level: 5, ngp: 5},
-  {name: 'c', level: 4, ngp: 10},
-  {name: 'd', level: 8, ngp: 15},
-  {name: 'a', level: 10, ngp: 0},
-  {name: 'b', level: 5, ngp: 5},
-  {name: 'c', level: 4, ngp: 10},
-  {name: 'd', level: 8, ngp: 15},
-  {name: 'a', level: 12, ngp: 0},
-  {name: 'b', level: 5, ngp: 5},
-  {name: 'c', level: 4, ngp: 10},
-  {name: 'd', level: 8, ngp: 15},
-  {name: 'a', level: 10, ngp: 0},
-  {name: 'b', level: 5, ngp: 5},
-  {name: 'c', level: 4, ngp: 10},
-  {name: 'd', level: 8, ngp: 15},
-  {name: 'a', level: 10, ngp: 0},
-  {name: 'b', level: 5, ngp: 5},
-  {name: 'c', level: 4, ngp: 10},
-  {name: 'd', level: 8, ngp: 15},
+  {name: 'c', level: 4, ngp: 4},
+  {name: 'd', level: 8, ngp: 3},
+  {name: 'a', level: 10, ngp: 2},
+  {name: 'b', level: 5, ngp: 1},
+  {name: 'c', level: 4, ngp: 0},
+  {name: 'd', level: 8, ngp: 0},
   {name: 'a', level: 11, ngp: 0},
-  {name: 'b', level: 5, ngp: 5},
-  {name: 'c', level: 4, ngp: 10},
-  {name: 'd', level: 8, ngp: 15},
+  {name: 'b', level: 5, ngp: 0},
+  {name: 'c', level: 4, ngp: 0},
+  {name: 'd', level: 8, ngp: 0},
   {name: 'a', level: 10, ngp: 0},
-  {name: 'b', level: 5, ngp: 5},
-  {name: 'c', level: 4, ngp: 10},
-  {name: 'd', level: 8, ngp: 15},
+  {name: 'b', level: 5, ngp: 0},
+  {name: 'c', level: 4, ngp: 0},
+  {name: 'd', level: 8, ngp: 0},
 ];
 
 // a     b     c       d       e 
@@ -41,7 +41,7 @@ var opponentsArr = [
  
 /////////////////////////////////////////* SETTINGS */////////////////////////////////////////
 
-var w = 600;
+var w = 800;
 var h = w/2;
 
 /////////////////////////////////////////* OUTPUT CREATION */////////////////////////////////////////
@@ -125,6 +125,13 @@ console.log('output', output);
 /////////////////////////////////////////* D3 VISUALIZATION */////////////////////////////////////////
 
 var maxRadius = 10;
+
+var tooltip = d3.select("body")
+  .append("div")
+  .style("position", "absolute")
+  .style("z-index", "10")
+  .style("visibility", "hidden")
+  .text("a simple tooltip");
 
 svgContainer = d3.select('body')
   .append('svg')
