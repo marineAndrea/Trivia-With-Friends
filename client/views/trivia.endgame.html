@@ -22,35 +22,36 @@
         </div>
       </div>
 
-      <!-- winner identity -->
-      <div>
-        {{ $parent.player }}
-        {{ rootScope }}
-        {{ opponents }}
-        {{ winner.username === player.username ? "You win!" : winner.username + " wins!" }}
-      </div>
-
-      <!-- opponents' scores -->
-      <div>
-        <table>
-          <tr>
-            <th>Username</th>
-            <th>Scores</th>
-          </tr>
-          <tr ng-repeat="opponent in opponents">
-            <td>{{ opponent.username }}</td>
-            <td>{{ opponent.score }}</td>
-          </tr>
-        </table>
-      </div>
-
-      <!-- game summary -->
+      
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
           <div class="row">
             <div class="endgame-summary-col col-md-6 col-md-offset-3">
 
-              <span class="lead">Game Summary</span>
+              <!-- winner identity -->
+              <div class="row">
+                {{ winner.username === player.username ? "You win!" : winner.username + " wins!" }}
+              </div>
+
+              <!-- all scores -->
+              <span class="lead">All Scores</span>
+              <table class="endgame-summary-table table table-hover text-left">
+                <tr>
+                  <th>Username</th>
+                  <th>Scores</th>
+                </tr>
+                <tr>
+                  <td>{{ player.username }}</td>
+                  <td>{{ player.score }}</td>         
+                </tr>
+                <tr ng-repeat="opponent in opponents">
+                  <td class="col-md-8">{{ opponent.username }}</td>
+                  <td class="text-right">{{ opponent.score }}</td>
+                </tr>
+              </table>
+
+              <!-- player's game summary -->
+              <span class="lead">Your Game Summary</span>
               <table class="endgame-summary-table table table-hover text-left">
                 <tr>
                   <td class="col-md-8">
