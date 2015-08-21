@@ -22,14 +22,11 @@ module.exports = {
     var questionsAnswered;
     var questionsAnsweredCorrect;
     var findUser = Q.nbind(User.findOne, User);
-
     findUser({username: username})
       .then(function(user){
         oldScore = user.totalXp;
         newScore = oldScore + score;
         oldGames = user.gamesPlayed;
-        questionsAnswered = user.questionsAnswered + answered;
-        questionsAnsweredCorrect = user.questionsAnsweredCorrect + correct;
         userLevel = Math.ceil(0.05 * Math.sqrt(newScore));
         if(user.bestGameScore < score){
           bestGameScore = score;
@@ -41,7 +38,7 @@ module.exports = {
         }else{
           bestCorrectStreak = user.bestCorrectStreak;
         }
-      }).then(function(){
+        
         User.findOneAndUpdate(query, {totalXp: newScore}, function(arg){
           //null
         });
@@ -54,27 +51,23 @@ module.exports = {
         User.findOneAndUpdate(query, {bestCorrectStreak: bestCorrectStreak}, function(arg){
           //null
         });
-        User.findOneAndUpdate(query, {questionsAnswered: questionsAnswered}, function(arg){
-          //null
-        });
-        User.findOneAndUpdate(query, {questionsAnsweredCorrect: questionsAnsweredCorrect}, function(arg){
-          //null
-        });
+
         User.findOneAndUpdate(query, {userLevel: userLevel}, function(arg){
           //null
         });
+        // User.findOneAndUpdate(query, { 
+        //   mostRecentGame: {
+        //     xpEarned: score,
+        //     questionsAnswered: answered,
+        //     questionsAnsweredCorrect: correct
+        //   }
+        // }, function(arg){
+        //   //null
+        // });        
+        
+        console.log('userupdate line 25', user);
         User.findOneAndUpdate(query, { 
-          mostRecentGame: {
-            xpEarned: score,
-            questionsAnswered: answered,
-            questionsAnsweredCorrect: correct
-          }
-        }, function(arg){
-          //null
-        });        
-
-        User.findOneAndUpdate(query, { 
-          games: $push(game.id)
+          $push: {games: game.id}
         }, function(arg){
           //null
         });
