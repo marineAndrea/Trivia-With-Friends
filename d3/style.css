@@ -1,0 +1,23 @@
+circle.a {
+  fill:red;
+}
+
+circle.b {
+  fill:blue;
+}
+
+circle.c {
+  fill:yellow;
+}
+
+circle.d {
+  fill:violet;
+}
+
+circle.e {
+  fill:green;
+}
+
+.opponents {
+  border: 1px solid black;
+}
