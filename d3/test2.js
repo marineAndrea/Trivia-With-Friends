@@ -9,7 +9,8 @@ var m = [80, 80, 80, 80]; // margins
 /* implementation heavily influenced by http://bl.ocks.org/1166403 */
 
   // create a simple userScores array that we'll plot with a line (this array represents only the Y values, X will just be the index location)
-  var userScores = [10, 40, 50, 20, 70, 100, 110, 80, 150, 180];
+  var userScores = [20, 10, 80, 50, 100, 80, 70, 100, 140, 150, 200, 220, 230, 180, 160, 200, 280, 300, 350, 360];
+
   // var meanScores = [10, 50, 80, 100, 110, 115, 118, 120, 121, 121];
 
   // X scale will fit all values from userScores[] within pixels 0-w
