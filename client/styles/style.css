@@ -17,7 +17,7 @@
   padding: 30px 20px !important;
 }
 .stats-chart-view {
-  height: 400px;
+  height: 410px;
 }
 
 /*/trivia/play css*/
@@ -126,10 +126,11 @@ svg g path {
   stroke: #000;
 }
 .graph {
-  position:absolute;
-  top:0px;
-  left:0; 
-  float:left;
+  /* position:absolute; */
+  /* top:0px; */
+  /* left:0; */
+  /* float:left; */
+  /* margin-bottom: 5px; */
 }
 path {
   stroke: steelblue;
@@ -171,7 +172,7 @@ g text {
 }
 
 .graphtitle {
-  font-size: 32px;
+  font-size: 20px;
 }
 
 

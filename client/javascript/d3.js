@@ -128,8 +128,8 @@ angular.module('app.d3', [])
         // Add an SVG element with the desired dimensions and margin.
         var graph = d3.select(element[0]).append("svg:svg")
          .attr("class", "personalgraph")
-         .attr("width", w + m[1] + m[3])
-         .attr("height", h + m[0] + m[2])
+         .attr("width", "100%")
+         .attr("height", "100%")
          .append("svg:g")
          .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
@@ -137,6 +137,7 @@ angular.module('app.d3', [])
         var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true);
         // Add the x-axis.
         graph.append("svg:g")
+         .attr("width", "100%")
          .attr("class", "x axis")
          .attr("transform", "translate(0," + h + ")")
          .call(xAxis);
@@ -145,6 +146,7 @@ angular.module('app.d3', [])
         var yAxisLeft = d3.svg.axis().scale(y).ticks(4).orient("left");
         // Add the y-axis to the left
         graph.append("svg:g")
+         .attr("width", "100%")
          .attr("class", "y axis")
          .attr("transform", "translate(0,0)")
          .call(yAxisLeft)
@@ -159,8 +161,7 @@ angular.module('app.d3', [])
          
         graph.append("text")
           .attr("class", "x label")
-          .attr("text-anchor", "end")
-          .attr("x", w)
+          // .attr("x", w)
           .attr("y", h - 6)
           .text("Games Played");
         // Add the line by appending an svg:path element with the userScores line we created above
