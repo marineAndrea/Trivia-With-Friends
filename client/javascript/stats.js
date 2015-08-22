@@ -88,7 +88,7 @@
             output[i].y = y;
           }
           return output;
-        }
+        };
 
         return CompleteXandY(opponents, width, height);
       }
@@ -98,38 +98,32 @@
   app.controller('StatsController', ['$scope', '$location','$stateParams','$state', 'StatRequests', function($scope, $location, $stateParams, $state, StatRequests) {
     //nothing for now. Will add later.
     var opponents = [
-      {name: 'a', level: 15, ngp: 0},
-      {name: 'b', level: 5, ngp: 5},
-      {name: 'c', level: 4, ngp: 10},
-      {name: 'd', level: 8, ngp: 15},
-      {name: 'a', level: 13, ngp: 0},
-      {name: 'b', level: 5, ngp: 5},
-      {name: 'c', level: 4, ngp: 10},
-      {name: 'd', level: 8, ngp: 15},
       {name: 'a', level: 10, ngp: 0},
-      {name: 'b', level: 5, ngp: 5},
-      {name: 'c', level: 4, ngp: 10},
-      {name: 'd', level: 8, ngp: 15},
-      {name: 'a', level: 12, ngp: 0},
-      {name: 'b', level: 5, ngp: 5},
-      {name: 'c', level: 4, ngp: 10},
-      {name: 'd', level: 8, ngp: 15},
-      {name: 'a', level: 10, ngp: 0},
-      {name: 'b', level: 5, ngp: 5},
-      {name: 'c', level: 4, ngp: 10},
-      {name: 'd', level: 8, ngp: 15},
-      {name: 'a', level: 10, ngp: 0},
-      {name: 'b', level: 5, ngp: 5},
-      {name: 'c', level: 4, ngp: 10},
-      {name: 'd', level: 8, ngp: 15},
-      {name: 'a', level: 11, ngp: 0},
-      {name: 'b', level: 5, ngp: 5},
-      {name: 'c', level: 4, ngp: 10},
-      {name: 'd', level: 8, ngp: 15},
-      {name: 'a', level: 10, ngp: 0},
-      {name: 'b', level: 5, ngp: 5},
-      {name: 'c', level: 4, ngp: 10},
-      {name: 'd', level: 8, ngp: 15},
+      {name: 'b', level: 9, ngp: 0},
+      {name: 'c', level: 8, ngp: 0},
+      {name: 'd', level: 7, ngp: 1},
+      {name: 'e', level: 6, ngp: 2},
+      {name: 'f', level: 5, ngp: 3},
+      {name: 'g', level: 4, ngp: 4},
+      {name: 'h', level: 3, ngp: 5},
+      {name: 'i', level: 2, ngp: 0},
+      {name: 'j', level: 1, ngp: 0},
+      {name: 'k', level: 0, ngp: 0},
+      {name: 'l', level: 8, ngp: 6},
+      {name: 'm', level: 6, ngp: 7},
+      {name: 'n', level: 4, ngp: 8},
+      {name: 'o', level: 2, ngp: 9},
+      {name: 'p', level: 0, ngp: 10},
+      {name: 'q', level: 1, ngp: 9},
+      {name: 'r', level: 2, ngp: 8},
+      {name: 's', level: 3, ngp: 7},
+      {name: 't', level: 4, ngp: 6},
+      {name: 'u', level: 5, ngp: 5},
+      {name: 'v', level: 6, ngp: 4},
+      {name: 'w', level: 7, ngp: 3},
+      {name: 'x', level: 8, ngp: 2},
+      {name: 'y', level: 9, ngp: 1},
+      {name: 'z', level: 10, ngp: 0}
     ];
 
     var w = 600;

@@ -4,7 +4,7 @@ var unirest = require('unirest');
 
 var Game = require('../models/game/gameController');
 var numberOfPlayers = 2;
-var numberOfQuestions = 0; //Max 100
+var numberOfQuestions = 10; //Max 100
 var maxTime = 30;
 
 var getQuestions = function(callback){
