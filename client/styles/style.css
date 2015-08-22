@@ -1,7 +1,7 @@
 
 /*for testing*/
 * {
-  /*border: 1px dotted green;*/
+  /* border: 1px dotted green; */
 }
 
 /*index header css*/
@@ -88,5 +88,90 @@
   height: 100%;
 }
 
+
+circle {
+  fill:silver;
+}
+
+circle {
+  fill:snow;
+}
+.opponents {
+  /* border: 1px solid white; */
+  background-image: url("http://ak.picdn.net/shutterstock/videos/390712/preview/stock-footage-liquid-splashing-against-dark-blue-gradient-bg-alpha-included.jpg");
+  background-size: 100%, 100%;
+  background-repeat: no-repeat;
+}
+
+circle:hover {
+  fill:gold;
+}
+
+svg g path {
+  stroke: steelblue;
+  stroke-width: 2;
+  fill: none;
+}
+
+.x.axis line {
+  stroke: lightgrey;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.y.axis line, .y.axis path {
+  fill: none;
+  stroke: #000;
+}
+.graph {
+  position:absolute;
+  top:0px;
+  left:0; 
+  float:left;
+}
+path {
+  stroke: steelblue;
+  stroke-width: 2;
+  fill: none;
+}
+
+.x.axis line {
+  stroke: lightgrey;
+}
+
+/*.x.axis .minor {
+  stroke-opacity: .5;
+}*/
+
+.x.axis path {
+  display: none;
+}
+
+.y.axis line, .y.axis path {
+  fill: none;
+  stroke: aliceblue;
+}
+
+path.path {
+    fill: none;
+    stroke: aliceblue;
+    stroke-width: 3px;
+}
+
+text.x.label, text.y.label {
+    font-size: 40px;
+    stroke: aliceblue;
+    fill: aliceblue;
+}
+
+g text {
+    fill: aliceblue;
+}
+
+.graphtitle {
+  font-size: 32px;
+}
 
 

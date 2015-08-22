@@ -27,3 +27,35 @@ circle:hover {
 body {
   background-color: black;
 }
+
+svg g path {
+  stroke: steelblue;
+  stroke-width: 2;
+  fill: none;
+}
+
+  shape-rendering: crispEdges;
+}
+
+.x.axis line {
+  stroke: lightgrey;
+}
+
+/*.x.axis .minor {
+  stroke-opacity: .5;
+}*/
+
+.x.axis path {
+  display: none;
+}
+
+.y.axis line, .y.axis path {
+  fill: none;
+  stroke: #000;
+}
+.graph {
+  position:absolute;
+  top:0px;
+  left:0; 
+  float:left;
+}
