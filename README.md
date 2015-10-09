@@ -6,7 +6,7 @@
 
   - __Product Owner__: Harry Sadler
   - __Scrum Master__: Eric Fischer
-  - __Development Team Members__: Nicolas Toscano, David Beckley
+  - __Development Team Members__: Nicolas Toscano, David Beckley, Marine Guillanton
 
 ## Table of Contents
 
